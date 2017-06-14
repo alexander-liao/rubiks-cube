@@ -1,4 +1,4 @@
-#pragma once
+// #pragma once
 
 enum { UP, LEFT, FRONT, RIGHT, BACK, DOWN };
 

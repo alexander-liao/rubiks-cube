@@ -3,13 +3,19 @@
 
 int cube[6][3][3];
 
+char name(int face, int line, int cubelet)
+{
+  printf("%d %d %d : %d\n",face,line,cubelet,cubelet+line*3+face*9);
+  return "abcdefghijklmnopqrstuvwxyz@ABCDEFGHIJKLMNOPQRSTUVWXYZ$"[face * 9 + line * 3 + cubelet];
+}
+
 void initcube(void)
 {
     int face, line, cubelet;
     for (face = 0; face < 6; face++)
         for (line = 0; line < 3; line++)
             for (cubelet = 0; cubelet < 3; cubelet++)
-                cube[face][line][cubelet] = face;
+                cube[face][line][cubelet] = name(face, line, cubelet);
 }
 
 char *color(int x)
@@ -31,13 +37,15 @@ void printcube(void)
         int o0 = cube[0][line][0];
         int o1 = cube[0][line][1];
         int o2 = cube[0][line][2];
-        printf("   \e[%s%d\e[%s%d\e[%s%d\n",color(o0),o0,color(o1),o1,color(o2),o2);
+        // printf("   \e[%s%d\e[%s%d\e[%s%d\n",color(o0),o0,color(o1),o1,color(o2),o2);
+        printf("   %c%c%c\n",o0,o1,o2);
     }
 
     for (line = 0; line < 3; line++) {
         for (face = 1; face < 5; face++)
             for (cubelet = 0; cubelet < 3; cubelet++)
-                printf("\e[%s%d",color(cube[face][line][cubelet]),cube[face][line][cubelet]);
+                // printf("\e[%s%d",color(cube[face][line][cubelet]),cube[face][line][cubelet]);
+                printf("%c",cube[face][line][cubelet]);
         putchar('\n');
     }
 
@@ -45,7 +53,8 @@ void printcube(void)
         int o0 = cube[5][line][0];
         int o1 = cube[5][line][1];
         int o2 = cube[5][line][2];
-        printf("   \e[%s%d\e[%s%d\e[%s%d\n",color(o0),o0,color(o1),o1,color(o2),o2);
+        // printf("   \e[%s%d\e[%s%d\e[%s%d\n",color(o0),o0,color(o1),o1,color(o2),o2);
+        printf("   %c%c%c\n",o0,o1,o2);
     }
     putchar('\n');
 }
@@ -117,7 +126,7 @@ void turncube(int face, int turns)
 
 void rotateface(int face, int clockwise)
 {
-    if (clockwise == 1 && face != BACK) {
+    if (clockwise == 1 /* && face != BACK */) {
         swap(&cube[face][0][0], &cube[face][2][0]);
         swap(&cube[face][0][1], &cube[face][1][0]);
         swap(&cube[face][0][2], &cube[face][2][0]);
@@ -125,7 +134,7 @@ void rotateface(int face, int clockwise)
         swap(&cube[face][1][2], &cube[face][2][1]);
         swap(&cube[face][2][2], &cube[face][2][0]);
     }
-    else if (clockwise == 1 && face == BACK) {
+/*    else if (clockwise == 1 && face == BACK) {
         swap(&cube[face][0][0], &cube[face][0][2]);
         swap(&cube[face][1][0], &cube[face][0][1]);
         swap(&cube[face][2][0], &cube[face][0][2]);
@@ -133,4 +142,5 @@ void rotateface(int face, int clockwise)
         swap(&cube[face][2][1], &cube[face][1][2]);
         swap(&cube[face][2][2], &cube[face][0][2]);
     }
+*/
 }
